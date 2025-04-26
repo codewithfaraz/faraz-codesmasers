@@ -1,9 +1,16 @@
 import { Button, Text } from "rizzui";
 import { ArrowRight } from "lucide-react";
 import HeroImage from "./hero-image.png";
+import { useNavigate } from "react-router-dom";
+import { useClerk } from "@clerk/clerk-react";
+
 const HeroSection = () => {
   // Fallback SVG placeholder
-
+  const { openSignUp, isSignedIn } = useClerk();
+  const navigate = useNavigate();
+  if (isSignedIn) {
+    navigate("/home");
+  }
   return (
     <section className="bg-gradient-to-b from-gray-900 to-gray-800 text-white py-20 md:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,6 +30,7 @@ const HeroSection = () => {
             </Text>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
+                onClick={openSignUp}
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700 transition-colors"
               >

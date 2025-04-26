@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, ActionIcon, Drawer } from "rizzui";
 import { Menu, X } from "lucide-react";
+import { useClerk, UserButton } from "@clerk/clerk-react";
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -25,6 +26,7 @@ const Header = () => {
     { name: "Pricing", href: "#pricing" },
     { name: "FAQ", href: "#faq" },
   ];
+  const { openSignIn, openSignUp, isSignedIn } = useClerk();
 
   return (
     <header className="sticky top-0 z-50 px-4 py-4">
@@ -49,40 +51,52 @@ const Header = () => {
 
           {/* Desktop navigation */}
           <nav className="hidden md:flex items-center justify-center space-x-1 absolute left-1/2 transform -translate-x-1/2">
-            <div className="bg-gray-800/50 rounded-full px-1 py-1 flex">
-              {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-300 hover:text-white px-4 py-2 text-sm font-medium rounded-full transition-all hover:bg-gray-700/50"
-                >
-                  {item.name}
-                </a>
-              ))}
-            </div>
+            {isSignedIn ? (
+              ""
+            ) : (
+              <div className="bg-gray-800/50 rounded-full px-1 py-1 flex">
+                {navItems.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="text-gray-300 hover:text-white px-4 py-2 text-sm font-medium rounded-full transition-all hover:bg-gray-700/50"
+                  >
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            )}
           </nav>
 
           {/* Action buttons */}
-          <div className="flex items-center space-x-3">
-            <Button
-              variant="outline"
-              className="hidden md:flex border-blue-400/30 text-blue-400 hover:bg-blue-500/10 hover:border-blue-400 transition-colors text-sm h-9 px-4"
-            >
-              Log In
-            </Button>
-            <Button className="hidden md:flex bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white transition-all text-sm h-9 px-4 shadow-md shadow-blue-900/20">
-              Get Started
-            </Button>
+          {isSignedIn ? (
+            <UserButton />
+          ) : (
+            <div className="flex items-center space-x-3">
+              <Button
+                onClick={openSignIn}
+                variant="outline"
+                className="hidden md:flex border-blue-400/30 text-blue-400 hover:bg-blue-500/10 hover:border-blue-400 transition-colors text-sm h-9 px-4"
+              >
+                Log In
+              </Button>
+              <Button
+                onClick={openSignUp}
+                className="hidden md:flex bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white transition-all text-sm h-9 px-4 shadow-md shadow-blue-900/20"
+              >
+                Get Started
+              </Button>
 
-            {/* Mobile menu button */}
-            <ActionIcon
-              variant="text"
-              className="md:hidden text-white hover:bg-gray-800/70 rounded-full"
-              onClick={() => setMobileMenuOpen(true)}
-            >
-              <Menu size={22} />
-            </ActionIcon>
-          </div>
+              {/* Mobile menu button */}
+              <ActionIcon
+                variant="text"
+                className="md:hidden text-white hover:bg-gray-800/70 rounded-full"
+                onClick={() => setMobileMenuOpen(true)}
+              >
+                <Menu size={22} />
+              </ActionIcon>
+            </div>
+          )}
         </div>
       </div>
 
