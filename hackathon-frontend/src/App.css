@@ -1,4 +1,63 @@
 #root {
   margin: 0 auto;
   padding: 0rem;
+  width: 100%;
+  scroll-behavior: smooth;
+}
+body {
+  scroll-behavior: smooth;
+}
+html {
+  scroll-behavior: smooth;
+}
+/* Override the default drawer styles from rizzui */
+.rizzui-drawer-root .rizzui-drawer-container {
+  background-color: rgba(
+    26,
+    32,
+    44,
+    0.97
+  ) !important; /* gray-900 with opacity */
+  backdrop-filter: blur(12px) !important;
+}
+
+.rizzui-drawer-root .rizzui-drawer-overlay {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(4px);
+}
+
+/* Add custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(96, 165, 250, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(96, 165, 250, 0.5);
+}
+
+/* Add subtle animations */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient {
+  background-size: 200% 200%;
+  animation: gradientAnimation 5s ease infinite;
 }
